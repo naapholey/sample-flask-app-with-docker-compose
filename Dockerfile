@@ -18,7 +18,7 @@ ENV APP_ENV=production
 ENV PORT=5000
 
 # Set working directory in container
-WORKDIR /app
+WORKDIR /app2
 
 # Install system dependencies (if needed)
 # This step is optional for this simple app, but good practice
@@ -37,7 +37,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY app.py .
+COPY app2.py .
 
 # Create non-root user for security
 # Running as root in containers is a security risk
@@ -57,5 +57,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 
 # Command to run the application
 # Using exec form (JSON array) for proper signal handling
-CMD ["python", "app.py"]
+CMD ["python", "app2.py"]
 

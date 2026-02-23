@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+    service1:
+        image: python:3.11-slim
+        build: .
+        depends_on:
+            - database
+        env_file: ".env"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "10m"
+                max-file: "3"
+        ports:
+            - "5000:5000"
+    database:
+        image: mysql
+        volumes:
+            - my-volume:/data/mysql
+        env_file: ".env"
+    redis:
+        image: redis:alpine
+        container_name: redis_server
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+        volumes:
+            # This mounts a named volume for data persistence
+            - redis-data:/data
+        command: redis-server --appendonly yes
+
+volumes:
+    my-volume:
+    redis-data:
+        driver: local
